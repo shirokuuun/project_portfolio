@@ -5,7 +5,7 @@ export const HomePage = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(30)].map((_, index) => (
