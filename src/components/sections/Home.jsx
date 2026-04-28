@@ -1,5 +1,66 @@
 import { RevealOnScroll } from "../RevealOnScroll.jsx";
-import { Linkedin, Github, Mail, Instagram } from "lucide-react";
+import { useState, useRef } from "react";
+import profilePhoto from "../../assets/formal_image.jpg";
+
+const TiltCard = ({ children }) => {
+  const ref = useRef(null);
+  const [transform, setTransform] = useState("");
+  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+
+  const handleMouseMove = (e) => {
+    const el = ref.current;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotateX = ((y - cy) / cy) * -15;
+    const rotateY = ((x - cx) / cx) * 15;
+    setTransform(
+      `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`,
+    );
+    setGlare({
+      x: (x / rect.width) * 100,
+      y: (y / rect.height) * 100,
+      opacity: 0.15,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTransform(
+      "perspective(700px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+    );
+    setGlare((g) => ({ ...g, opacity: 0 }));
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform,
+        transition: "transform 0.1s ease-out",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "9999px",
+          background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,${glare.opacity}), transparent 60%)`,
+          pointerEvents: "none",
+          zIndex: 10,
+          transition: "opacity 0.2s ease",
+        }}
+      />
+      {children}
+    </div>
+  );
+};
 
 export const HomePage = () => {
   return (
@@ -7,13 +68,14 @@ export const HomePage = () => {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16"
     >
+      {/* Floating dots */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(30)].map((_, index) => (
           <div
             key={index}
             className="absolute w-1.5 h-1.5 rounded-full opacity-60"
             style={{
-              backgroundColor: "#1adbd8",
+              backgroundColor: "var(--dot-color)",
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animation: `slow-drift ${15 + Math.random() * 20}s ease-in-out infinite`,
@@ -23,6 +85,7 @@ export const HomePage = () => {
         ))}
       </div>
 
+      {/* Grid background */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -32,22 +95,35 @@ export const HomePage = () => {
               height="50"
               patternUnits="userSpaceOnUse"
             >
-              <circle cx="25" cy="25" r="1" fill="#1adbd8" opacity="0.3" />
+              <circle
+                cx="25"
+                cy="25"
+                r="1"
+                fill="var(--dot-color)"
+                opacity="0.3"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
 
-      <RevealOnScroll>
+      {/* skip=true disables the skeleton effect on home — it's already visible on load */}
+      <RevealOnScroll skip={true}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-medium text-gray-300 mb-2">
+                <h2
+                  className="text-2xl md:text-3xl font-medium mb-2"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Hi There,
                 </h2>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold">
+                <h1
+                  className="text-4xl md:text-6xl lg:text-7xl font-bold"
+                  style={{ color: "var(--text-primary)" }}
+                >
                   I'm{" "}
                   <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
                     Marcus Neo
@@ -55,10 +131,13 @@ export const HomePage = () => {
                 </h1>
               </div>
 
-              <p className="text-gray-400 text-base md:text-lg max-w-xl">
-                I'm a passionate web developer specializing in creating dynamic
-                and responsive web applications. My goal is to build solutions
-                that offer both exceptional performance and an engaging user
+              <p
+                className="text-base md:text-lg max-w-xl"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                I'm a web developer specializing in creating dynamic and
+                responsive web applications. My goal is to build solutions that
+                offer both exceptional performance and an engaging user
                 experience.
               </p>
 
@@ -69,63 +148,40 @@ export const HomePage = () => {
                 >
                   View Projects
                 </a>
-
                 <a
-                  href="#contact"
+                  href="/Rangel, Marcus Neo - Resume.pdf"
+                  download="Rangel, Marcus Neo - Resume.pdf"
                   className="border-2 border-blue-500/50 text-blue-500 py-3 px-8 rounded-lg font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:bg-blue-500/10"
                 >
-                  Contact Me
+                  Download Resume
                 </a>
-              </div>
-
-              <div className="flex gap-4 pt-6">
-                {[
-                  {
-                    icon: <Linkedin size={20} />,
-                    href: "https://www.linkedin.com/in/marcusneorangel/",
-                    label: "LinkedIn",
-                  },
-                  {
-                    icon: <Github size={20} />,
-                    href: "https://github.com/shirokuuun",
-                    label: "GitHub",
-                  },
-                  {
-                    icon: <Instagram size={20} />,
-                    href: "https://www.instagram.com/_marcusneo/",
-                    label: "Instagram",
-                  },
-                ].map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-500/20 hover:border-blue-500/30 transition-all duration-200 text-gray-400 hover:text-blue-400"
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
               </div>
             </div>
 
+            {/* 3D Tilt Photo Circle */}
             <div className="flex justify-center lg:justify-end">
-              <div className="relative">
-                <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center shadow-2xl shadow-yellow-500/20">
-                  <div className="w-56 h-56 md:w-72 md:h-72 lg:w-88 lg:h-88 rounded-full bg-gradient-to-br from-blue-500 to-cyan-300 flex items-center justify-center text-white text-6xl md:text-7xl font-bold"></div>
+              <TiltCard>
+                <div className="relative">
+                  <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center shadow-2xl shadow-blue-500/30">
+                    <div className="w-60 h-60 md:w-76 md:h-76 lg:w-92 lg:h-92 rounded-full overflow-hidden border-4 border-white/10">
+                      <img
+                        src={profilePhoto}
+                        alt="Marcus Neo"
+                        className="w-full h-full object-cover object-[50%_10%]"
+                      />
+                    </div>
+                  </div>
+                  <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-cyan-400 opacity-60 animate-pulse" />
+                  <div
+                    className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-blue-500 opacity-60 animate-pulse"
+                    style={{ animationDelay: "0.5s" }}
+                  />
+                  <div
+                    className="absolute top-1/4 -left-6 w-4 h-4 rounded-full bg-yellow-400 opacity-60 animate-pulse"
+                    style={{ animationDelay: "1s" }}
+                  />
                 </div>
-
-                <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-cyan-400 opacity-60 animate-pulse"></div>
-                <div
-                  className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-blue-500 opacity-60 animate-pulse"
-                  style={{ animationDelay: "0.5s" }}
-                ></div>
-                <div
-                  className="absolute top-1/4 -left-6 w-4 h-4 rounded-full bg-yellow-400 opacity-60 animate-pulse"
-                  style={{ animationDelay: "1s" }}
-                ></div>
-              </div>
+              </TiltCard>
             </div>
           </div>
         </div>

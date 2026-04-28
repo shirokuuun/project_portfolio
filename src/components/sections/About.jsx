@@ -1,94 +1,113 @@
 import { RevealOnScroll } from "../RevealOnScroll.jsx";
 
 export const About = () => {
-  const frontendSkills = [
-    "React",
-    "Tailwind CSS",
-    "Flutter",
-    "HTML5",
-    "CSS3",
-    "JavaScript",
-  ];
-
-  const backendSkills = ["Node.js", "PHP", "Firebase", "MySQL"];
-
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center justify-center py-20"
+      className="min-h-screen flex items-start justify-center py-24 px-6"
     >
       <RevealOnScroll>
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 bg-linear-to-r from-blue-500 to bg-cyan-400 bg-clip-text text-transparent text-center">
-            About Me
+        <div className="max-w-6xl w-full mx-auto">
+          {/* Editorial heading */}
+          <h2
+            className="text-6xl md:text-8xl font-black mb-16 tracking-tight leading-none"
+            style={{ color: "var(--text-primary)" }}
+          >
+            About Me.
           </h2>
-          <div className="rounded-xl p-8 border-white/10 border hover:-translate-y-1 transition-all">
-            <p className="text-gray-300 mb-6">
-              Motivated developer to apply expertise in software development,
-              app development, and cloud engineering, contribute innovative
-              solutions to real-world challenges, and gain hands-on experience
-              that sharpens technical skills and professional growth.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-xl p-6 hover:-translate-y-1 transition-all">
-                <h3 className="text-xl font-bold mb-4"> Frontend</h3>
-                <div className="flex flex-wrap gap-2">
-                  {frontendSkills.map((skill, key) => (
-                    <span
-                      key={key}
-                      className="bg-blue-500/10 text-blue-500 py-1 px-3 rounded-full text-sm hover:bg-blue-500/20
-                      hover:shadow-[0_2px_8px_rgba(59,130,246,0.2)] transition"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-xl p-6 hover:-translate-y-1 transition-all">
-                <h3 className="text-xl font-bold mb-4"> Backend</h3>
-                <div className="flex flex-wrap gap-2">
-                  {backendSkills.map((skill, key) => (
-                    <span
-                      key={key}
-                      className="bg-blue-500/10 text-blue-500 py-1 px-3 rounded-full text-sm hover:bg-blue-500/20
-                      hover:shadow-[0_2px_8px_rgba(59,130,246,0.2)] transition"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <div className="p-6 rounded-xl border-white/10 border hover:-translate-y-1 transition-all">
-              <h3 className="text-xl font-bold mb-4">Education</h3>
-              <ul className="list-disc list-inside text-gray-300 space-y-2">
-                <li>
-                  <strong> BS Information Technology</strong> - De La Salle Lipa
-                  (2022-2026)
-                </li>
-                <li>
+
+          {/* Two-column layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left: bio text */}
+            <div className="space-y-6">
+              <p
+                className="text-lg leading-relaxed"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Ever since growing up, I've been fascinated by technology and
+                how it can be used to solve real-world problems. This passion
+                led me to pursue a degree in Information Technology, where I
+                honed my skills in web development and software engineering.
+              </p>
+              <p
+                className="text-lg leading-relaxed"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                There's just this subtle feeling of satisfaction that comes with
+                seeing a project come to life, and the drive to create something
+                impactful that I can share with the world is what keeps me
+                motivated.
+              </p>
+
+              {/* Education card */}
+              <div
+                className="mt-8 rounded-2xl p-6 border transition-all duration-200"
+                style={{
+                  backgroundColor: "var(--bg-card)",
+                  borderColor: "var(--border)",
+                }}
+              >
+                <p
+                  className="text-xs font-semibold tracking-widest uppercase mb-4"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Education
+                </p>
+                <h3
+                  className="text-xl font-bold mb-1"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  BS Information Technology
+                </h3>
+                <p className="text-blue-400 font-medium text-sm mb-1">
+                  De La Salle Lipa
+                </p>
+                <p
+                  className="text-sm font-mono"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  2022 – 2026
+                </p>
+                <p
+                  className="text-sm mt-3 leading-relaxed"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Relevant Coursework: Web Development, Mobile App Development,
-                  UI/UX Design
-                </li>
-              </ul>
-            </div>
-            <div className="p-6 rounded-xl border-white/10 border hover:-translate-y-1 transition-all">
-              <h3 className="text-xl font-bold mb-4">Work Experience</h3>
-              <div className="space-y-4 text-gray-300 ">
-                <div>
-                  <h4 className="font-semibold">
-                    Web Developer & Quality Assurance Intern at Highly Succeed
-                    Inc. (2026-Present)
-                  </h4>
-                  <p>
-                    Assisted in developing an Alumni Website and performed
-                    quality assurance testing to ensure functionality and user
-                    experience to Makati Waste.
-                  </p>
+                  UI/UX Design, Data Structures & Algorithms
+                </p>
+                <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 text-blue-400 bg-blue-500/5">
+                  Best Thesis in System Development
                 </div>
               </div>
+            </div>
+
+            {/* Right: quick facts / stats */}
+            <div className="space-y-4">
+              {[
+                { label: "Degree", value: "BS Information Technology" },
+                { label: "School", value: "De La Salle Lipa" },
+                { label: "Specialization", value: "Web & Mobile Development" },
+                { label: "Status", value: "Open to Opportunities" },
+              ].map((fact) => (
+                <div
+                  key={fact.label}
+                  className="flex justify-between items-center py-4 border-b"
+                  style={{ borderColor: "var(--border)" }}
+                >
+                  <span
+                    className="text-sm font-medium tracking-wide"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    {fact.label}
+                  </span>
+                  <span
+                    className="text-sm font-semibold text-right"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {fact.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { RevealOnScroll } from "../RevealOnScroll.jsx";
 import emailJS from "emailjs-com";
+import { Linkedin, Github, Mail } from "lucide-react";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,81 +18,174 @@ export const Contact = () => {
     e.preventDefault();
     emailJS
       .sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
-      .then((result) => {
+      .then(() => {
         alert("Message sent!");
         setFormData({ name: "", email: "", message: "" });
       })
-      .catch((error) => {
-        alert("An error occurred, please try again.");
-      });
+      .catch(() => alert("An error occurred, please try again."));
   };
 
+  const inputStyle = {
+    width: "100%",
+    backgroundColor: "var(--bg-card)",
+    border: "1px solid var(--border)",
+    borderRadius: "0.75rem",
+    padding: "1rem 1.25rem",
+    color: "var(--text-primary)",
+    fontSize: "0.875rem",
+    outline: "none",
+    transition: "border-color 0.2s, background-color 0.2s",
+  };
+
+  const handleFocus = (e) => {
+    e.target.style.borderColor = "rgba(59,130,246,0.5)";
+    e.target.style.backgroundColor = "rgba(59,130,246,0.04)";
+  };
+  const handleBlur = (e) => {
+    e.target.style.borderColor = "var(--border)";
+    e.target.style.backgroundColor = "var(--bg-card)";
+  };
+
+  const socials = [
+    {
+      icon: <Linkedin size={18} />,
+      label: "linkedin.com/in/marcusneorangel",
+      href: "https://www.linkedin.com/in/marcusneorangel/",
+    },
+    {
+      icon: <Github size={18} />,
+      label: "github.com/shirokuuun",
+      href: "https://github.com/shirokuuun",
+    },
+    {
+      icon: <Mail size={18} />,
+      label: "marcusneorangel21@gmail.com",
+      href: "mailto:marcusneorangel21@gmail.com",
+    },
+  ];
+
   return (
-    <section
-      id="contact"
-      className="min-h-screen flex items-center justify-center py-20 px-4"
-    >
+    <section id="contact" className="min-h-screen py-24 px-6">
       <RevealOnScroll>
-        <div className="w-full max-w-md md:max-w-3xl lg:max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
-            Get in touch
+        <div className="max-w-6xl w-full mx-auto">
+          <h2
+            className="text-6xl md:text-8xl font-black mb-6 tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Get In Touch.
           </h2>
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-            <div className="relative">
+          <p
+            className="text-base mb-16 max-w-xl"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Open to opportunities, collaborations, or just a good conversation.
+            Reach out through the form or find me on any of the links below.
+          </p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* Form */}
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <input
                 type="text"
                 name="name"
-                id="name"
                 required
                 value={formData.name}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 
-                text-white transition focus:outline-none focus:border-blue-500 focus:bg-blue-500/5"
-                placeholder="Name"
+                placeholder="Your name"
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                style={{ ...inputStyle, display: "block" }}
               />
-            </div>
-
-            <div className="relative">
               <input
                 type="email"
                 name="email"
-                id="name"
                 required
                 value={formData.email}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 
-                text-white transition focus:outline-none focus:border-blue-500 focus:bg-blue-500/5"
-                placeholder="example@gmail.com"
+                placeholder="your@email.com"
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                style={{ ...inputStyle, display: "block" }}
               />
-            </div>
-
-            <div className="relative">
               <textarea
                 name="message"
-                id="message"
                 required
-                rows={5}
+                rows={6}
                 value={formData.message}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 
-                text-white transition focus:outline-none focus:border-blue-500 focus:bg-blue-500/5 resize-none"
-                placeholder="Send a message..."
+                placeholder="Your message..."
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                style={{ ...inputStyle, display: "block", resize: "none" }}
               />
-            </div>
+              <button
+                type="submit"
+                className="w-full py-4 px-6 rounded-xl font-semibold text-sm text-white bg-blue-500
+                  hover:bg-blue-400 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]
+                  transition-all duration-200"
+              >
+                Send Message →
+              </button>
+            </form>
 
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg font-medium transition relative overflow-hidden hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]"
-            >
-              Send Message
-            </button>
-          </form>
+            {/* Socials */}
+            <div className="flex flex-col justify-center gap-2">
+              {socials.map((s, i) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 group py-6 transition-all"
+                  style={{
+                    borderBottom:
+                      i < socials.length - 1
+                        ? "1px solid var(--border)"
+                        : "none",
+                  }}
+                >
+                  <span
+                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 group-hover:text-blue-400"
+                    style={{
+                      backgroundColor: "var(--bg-card)",
+                      border: "1px solid var(--border)",
+                      color: "var(--text-muted)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor =
+                        "rgba(59,130,246,0.15)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(59,130,246,0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--bg-card)";
+                      e.currentTarget.style.borderColor = "var(--border)";
+                    }}
+                  >
+                    {s.icon}
+                  </span>
+                  <span
+                    className="font-mono text-sm group-hover:text-blue-400 transition-colors"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    {s.label}
+                  </span>
+                  <span
+                    className="ml-auto group-hover:text-blue-400 group-hover:translate-x-1 transition-all"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </RevealOnScroll>
     </section>
