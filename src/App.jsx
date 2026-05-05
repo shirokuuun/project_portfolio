@@ -22,8 +22,6 @@ function App() {
         style={{
           backgroundColor: "var(--bg)",
           minHeight: "100vh",
-          transition: "background-color 0.3s ease",
-          // Hide content until loading screen finishes
           opacity: isLoaded ? 1 : 0,
           transition: "opacity 0.5s ease, background-color 0.3s ease",
         }}
