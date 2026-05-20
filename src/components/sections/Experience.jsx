@@ -10,7 +10,7 @@ const experiences = [
     type: "Internship",
     description:
       "Led the development of the Human Resource Information System (HRIS) into a modern, full-stack web application, improving system architecture, optimizing data flow, and enhancing overall performance. Assisted in developing an Alumni Website and performed quality assurance testing to ensure functionality and user experience.",
-    tech: ["React", "Node.js", "PostgreSQL", "Tailwind CSS"],
+    tech: ["ReactJS", "Node.js", "PostgreSQL", "Tailwind CSS"],
   },
 ];
 

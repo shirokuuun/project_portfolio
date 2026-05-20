@@ -135,10 +135,10 @@ export const HomePage = () => {
                 className="text-base md:text-lg max-w-xl"
                 style={{ color: "var(--text-secondary)" }}
               >
-                I'm a web developer specializing in creating dynamic and
-                responsive web applications. My goal is to build solutions that
-                offer both exceptional performance and an engaging user
-                experience.
+                I'm a web and mobile app developer specializing in creating
+                dynamic and responsive web applications. My goal is to build
+                solutions that offer both exceptional performance and an
+                engaging user experience.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">

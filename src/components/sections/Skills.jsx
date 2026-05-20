@@ -3,19 +3,19 @@ import { RevealOnScroll } from "../RevealOnScroll.jsx";
 const skillCategories = [
   {
     label: "LANGUAGES",
-    skills: ["C++", "HTML", "CSS", "JavaScript", "SQL", "PHP", "Dart"],
+    skills: ["HTML", "CSS", "JavaScript", "PHP", "SQL", "Dart", "C++"],
   },
   {
     label: "FRAMEWORKS",
-    skills: ["React", "Flutter"],
+    skills: ["React", "Flutter", "Tailwind CSS", "Node.JS"],
   },
   {
     label: "LIBRARIES & TOOLS",
-    skills: ["Tailwind CSS", "Git", "Figma"],
+    skills: ["Git", "Figma"],
   },
   {
     label: "DATABASES",
-    skills: ["Firebase", "MySQL", "PostgreSQL"],
+    skills: ["PostgreSQL", "MySQL", "Firebase"],
   },
 ];
 

@@ -72,8 +72,9 @@ export const About = () => {
                   className="text-sm mt-3 leading-relaxed"
                   style={{ color: "var(--text-secondary)" }}
                 >
-                  Relevant Coursework: Web Development, Mobile App Development,
-                  UI/UX Design, Data Structures & Algorithms
+                  Relevant Coursework: Object-Oriented Programming, Data
+                  Structures and Algorithms, Operating Systems, Networking,
+                  Databases, Discrete Mathematics.
                 </p>
                 <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-500/20 text-blue-400 bg-blue-500/5">
                   Best Thesis in System Development
