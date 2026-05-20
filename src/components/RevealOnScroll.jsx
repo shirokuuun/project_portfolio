@@ -9,7 +9,6 @@ export const RevealOnScroll = ({ children, skip = false }) => {
     const el = ref.current;
     if (!el || skip) return;
 
-    // ── Wrap every word in a span ──────────────────────────────────
     const wrapWords = (node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         if (!node.textContent.trim()) return;
@@ -48,24 +47,38 @@ export const RevealOnScroll = ({ children, skip = false }) => {
 
     if (wordsRef.current.length === 0) return;
 
-    // ── Scroll handler — pure progress, no locking ─────────────────
-    const onScroll = () => {
+    const revealWords = () => {
       if (doneRef.current) return;
 
       const words = wordsRef.current;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
 
-      // Reveal window:
-      // starts when element top hits 90% down the viewport
-      // ends   when element top hits 10% down the viewport
+      if (rect.bottom <= 0) {
+        words.forEach((w) => {
+          w.classList.remove("wr-hidden");
+          w.classList.add("wr-shown");
+        });
+        doneRef.current = true;
+        window.removeEventListener("scroll", revealWords);
+        return;
+      }
+
       const revealStart = vh * 0.9;
       const revealEnd = vh * 0.1;
 
-      const progress = Math.min(
-        1,
-        Math.max(0, (revealStart - rect.top) / (revealStart - revealEnd)),
-      );
+      const progressByTop =
+        (revealStart - rect.top) / (revealStart - revealEnd);
+      const progressByBottom = rect.bottom <= vh * 0.5 ? 1 : progressByTop;
+
+      // ✅ KEY FIX: if the element's bottom is already within the
+      // visible viewport (rect.bottom <= vh), the section is on screen
+      // but there's nothing left to scroll. Reveal everything.
+      const isBottomVisible = rect.bottom <= vh;
+
+      const progress = isBottomVisible
+        ? 1
+        : Math.min(1, Math.max(0, Math.max(progressByTop, progressByBottom)));
 
       const toReveal = Math.floor(progress * words.length);
 
@@ -76,7 +89,6 @@ export const RevealOnScroll = ({ children, skip = false }) => {
             w.classList.add("wr-shown");
           }
         } else {
-          // Only re-hide if section not fully done
           if (!w.classList.contains("wr-shown") || !doneRef.current) {
             w.classList.remove("wr-shown");
             w.classList.add("wr-hidden");
@@ -84,17 +96,16 @@ export const RevealOnScroll = ({ children, skip = false }) => {
         }
       });
 
-      // Once fully revealed — lock permanently, stop listening
       if (toReveal >= words.length) {
         doneRef.current = true;
-        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("scroll", revealWords);
       }
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // check on mount
+    window.addEventListener("scroll", revealWords, { passive: true });
+    revealWords();
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", revealWords);
   }, [skip]);
 
   if (skip) return <div className="wr-root">{children}</div>;
