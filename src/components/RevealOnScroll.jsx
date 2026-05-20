@@ -54,7 +54,9 @@ export const RevealOnScroll = ({ children, skip = false }) => {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
 
-      if (rect.bottom <= 0) {
+      // Section is entirely above the viewport (scrolled past it)
+      // OR section bottom is already visible — reveal all immediately
+      if (rect.bottom <= 0 || rect.bottom <= vh) {
         words.forEach((w) => {
           w.classList.remove("wr-hidden");
           w.classList.add("wr-shown");
@@ -64,22 +66,14 @@ export const RevealOnScroll = ({ children, skip = false }) => {
         return;
       }
 
+      // Section hasn't entered view yet — keep all hidden
+      if (rect.top >= vh) return;
+
       const revealStart = vh * 0.9;
       const revealEnd = vh * 0.1;
-
       const progressByTop =
         (revealStart - rect.top) / (revealStart - revealEnd);
-      const progressByBottom = rect.bottom <= vh * 0.5 ? 1 : progressByTop;
-
-      // ✅ KEY FIX: if the element's bottom is already within the
-      // visible viewport (rect.bottom <= vh), the section is on screen
-      // but there's nothing left to scroll. Reveal everything.
-      const isBottomVisible = rect.bottom <= vh;
-
-      const progress = isBottomVisible
-        ? 1
-        : Math.min(1, Math.max(0, Math.max(progressByTop, progressByBottom)));
-
+      const progress = Math.min(1, Math.max(0, progressByTop));
       const toReveal = Math.floor(progress * words.length);
 
       words.forEach((w, i) => {
@@ -89,7 +83,7 @@ export const RevealOnScroll = ({ children, skip = false }) => {
             w.classList.add("wr-shown");
           }
         } else {
-          if (!w.classList.contains("wr-shown") || !doneRef.current) {
+          if (!doneRef.current) {
             w.classList.remove("wr-shown");
             w.classList.add("wr-hidden");
           }
@@ -103,7 +97,8 @@ export const RevealOnScroll = ({ children, skip = false }) => {
     };
 
     window.addEventListener("scroll", revealWords, { passive: true });
-    revealWords();
+
+    setTimeout(revealWords, 0);
 
     return () => window.removeEventListener("scroll", revealWords);
   }, [skip]);
