@@ -1,214 +1,303 @@
-import { useState } from "react";
-import { RevealOnScroll } from "../RevealOnScroll.jsx";
-import projIMG from "../../assets/portfolioIMG.jpg";
-import progIMG2 from "../../assets/socialMediaApp.jpg";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ArrowUpRight, Check, Monitor, X } from "lucide-react";
+import { projects } from "../../data/projects.js";
+import { SectionHeading } from "../SectionHeading.jsx";
+import { PeakPreview } from "../PeakPreview.jsx";
 
-const projects = [
-  {
-    id: 1,
-    category: "mobile · transport",
-    title: "BusGo",
-    tagline: "Smart. Real-time. Reliable.",
-    description:
-      "A Flutter-based smart public transportation system developed for BATRASCO that integrates real-time bus tracking, digital pre-ticketing, and public/private reservations. Using Google Maps API and Firebase, the app allows commuters to monitor bus locations, check seat availability, and plan trips efficiently.",
-    tech: ["Flutter", "Dart", "Firebase", "Google Maps API", "Git"],
-    image: projIMG,
-    liveLink: "",
-    featured: true,
-  },
-  {
-    id: 2,
-    category: "backend · api",
-    title: "Social Media App Backend",
-    tagline: "RESTful. Scalable. Secure.",
-    description:
-      "A Node.js and JavaScript-based backend system designed to support core social media functionalities such as user authentication, post management, comments, and media handling. Built using RESTful APIs with secure data processing and scalable server-side logic.",
-    tech: ["JavaScript", "Node.js", "Git"],
-    image: progIMG2,
-    liveLink: "",
-    featured: false,
-  },
-  {
-    id: 3,
-    category: "fullstack · hr",
-    title: "Human Resource Information System",
-    tagline: "Automated. Centralized. Efficient.",
-    description:
-      "A full-stack HRIS using React.js, Node.js, and PostgreSQL to automate and centralize HR processes, including employee record management and data tracking. Features dynamic user interfaces and scalable backend services with efficient data flow through RESTful APIs.",
-    tech: ["React", "Node.js", "PostgreSQL", "Tailwind CSS"],
-    image: null,
-    liveLink: "https://hsi-mini-project.vercel.app",
-    featured: false,
-  },
+const filters = [
+  "All work",
+  ...new Set(projects.map((project) => project.type)),
 ];
 
-const Modal = ({ project, onClose }) => {
-  if (!project) return null;
+const ProjectDialog = ({ project, onClose }) => {
+  const dialogRef = useRef(null);
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (project && !dialog.open) {
+      dialog.showModal();
+      dialog.querySelector(".dialog-close")?.focus({ preventScroll: true });
+    }
+    if (!project && dialog.open) dialog.close();
+    const previousOverflow = document.body.style.overflow;
+    if (project) document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [project]);
+  const dismiss = () => dialogRef.current.close();
+  const dismissBackdrop = (event) => {
+    if (event.target !== event.currentTarget) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    if (
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom
+    )
+      dismiss();
+  };
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
+    <dialog
+      className="project-dialog"
+      ref={dialogRef}
+      onClose={onClose}
+      onClick={dismissBackdrop}
+      aria-labelledby="project-dialog-title"
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-      <div
-        className="relative z-10 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border"
-        style={{ backgroundColor: "var(--bg)", borderColor: "var(--border)" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {project.image && (
-          <div className="w-full h-56 overflow-hidden">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover opacity-80"
-            />
-          </div>
-        )}
-        <div className="p-8">
-          <p
-            className="text-xs tracking-widest uppercase mb-2"
-            style={{ color: "var(--text-muted)" }}
+      {project ? (
+        <>
+          <div
+            className={`dialog-image ${project.preview === "peak" ? "dialog-image-peak" : ""}`}
           >
-            {project.category}
-          </p>
-          <h3
-            className="text-3xl font-black mb-1"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {project.title}
-          </h3>
-          <p className="text-blue-400 font-medium italic mb-5">
-            {project.tagline}
-          </p>
-          <p
-            className="text-sm leading-relaxed mb-6"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {project.description}
-          </p>
-          <div className="flex flex-wrap gap-2 mb-8">
-            {project.tech.map((t) => (
-              <span
-                key={t}
-                className="px-3 py-1 rounded-full text-xs font-medium border"
-                style={{
-                  backgroundColor: "var(--bg-card)",
-                  borderColor: "var(--border)",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-          <div className="flex gap-3 items-center">
-            {project.liveLink ? (
-              <a
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-400 transition-colors"
-              >
-                Live Demo →
-              </a>
+            {project.preview === "peak" ? (
+              <PeakPreview interactive />
             ) : (
-              <span
-                className="px-6 py-2.5 text-sm font-semibold rounded-lg border cursor-not-allowed"
-                style={{
-                  backgroundColor: "var(--bg-card)",
-                  borderColor: "var(--border)",
-                  color: "var(--text-muted)",
-                }}
-              >
-                Demo coming soon
-              </span>
+              <img
+                src={project.image}
+                alt={`${project.fullTitle || project.title} application preview`}
+              />
             )}
             <button
-              onClick={onClose}
-              className="px-6 py-2.5 text-sm hover:text-blue-400 transition-colors"
-              style={{ color: "var(--text-muted)" }}
+              className="dialog-close icon-button"
+              onClick={dismiss}
+              aria-label="Close project details"
+              autoFocus
             >
-              Close
+              <X size={20} />
             </button>
           </div>
-        </div>
-      </div>
-    </div>
+          <div className="dialog-body">
+            <p className="eyebrow">
+              {project.number} / {project.category}
+            </p>
+            <h2 id="project-dialog-title">
+              {project.fullTitle || project.title}
+            </h2>
+            <p className="dialog-summary">{project.summary}</p>
+            <p>{project.description}</p>
+            <ul className="project-features">
+              {project.features.map((feature) => (
+                <li key={feature}>
+                  <Check size={16} />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <div className="tech-tags">
+              {project.tech.map((tech) => (
+                <span key={tech}>{tech}</span>
+              ))}
+            </div>
+            {project.build ? (
+              <section
+                className="project-build"
+                aria-labelledby="project-build-heading"
+              >
+                <p className="eyebrow">FROM IDEA TO DESKTOP</p>
+                <h3 id="project-build-heading">How Peak was built</h3>
+                <p>{project.build.intro}</p>
+                <ol className="project-build-steps">
+                  {project.build.steps.map((step, index) => (
+                    <li key={step.title}>
+                      <span className="mono">0{index + 1}</span>
+                      <div>
+                        <h4>{step.title}</h4>
+                        <p>{step.text}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                <div
+                  className="project-build-flow"
+                  aria-label="Peak architecture: provider adapters feed shared usage and task rules, which drive the WPF island"
+                >
+                  {project.build.flow.map((step, index) => (
+                    <span key={step}>
+                      {index > 0 ? (
+                        <ArrowRight size={13} aria-hidden="true" />
+                      ) : null}
+                      <span>{step}</span>
+                    </span>
+                  ))}
+                </div>
+                <p className="project-build-note">{project.build.note}</p>
+              </section>
+            ) : null}
+            <div className="dialog-actions">
+              {project.liveLink ? (
+                <a
+                  className="button button-primary"
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit live project <ArrowUpRight size={17} />
+                </a>
+              ) : (
+                <span className="preview-note mono">
+                  {project.platform ? (
+                    <>
+                      <Monitor size={13} />
+                      {project.platform}
+                    </>
+                  ) : (
+                    "PROJECT PREVIEW · LIVE DEMO UNAVAILABLE"
+                  )}
+                </span>
+              )}
+              <button className="text-link" onClick={dismiss}>
+                Back to work <X size={15} />
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </dialog>
   );
 };
 
 export const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [filter, setFilter] = useState("All work");
+  const [selected, setSelected] = useState(null);
+  const visible = projects.filter(
+    (project) => filter === "All work" || project.type === filter,
+  );
   return (
-    <>
-      <section id="projects" className="min-h-screen py-24 px-6">
-        <RevealOnScroll>
-          <div className="max-w-6xl w-full mx-auto">
-            <h2
-              className="text-6xl md:text-8xl font-black mb-20 tracking-tight"
-              style={{ color: "var(--text-primary)" }}
+    <section
+      id="projects"
+      className="section container"
+      aria-labelledby="work-heading"
+    >
+      <SectionHeading
+        number="01"
+        label="SELECTED WORK"
+        title={
+          <span id="work-heading">
+            Ideas, made real<span className="accent">.</span>
+          </span>
+        }
+      >
+        <p>
+          A few things I’ve built.
+          <br /> Each one, a new problem to solve.
+        </p>
+      </SectionHeading>
+      <div className="project-toolbar">
+        <div
+          className="project-filters"
+          role="group"
+          aria-label="Filter projects"
+        >
+          {filters.map((item) => (
+            <button
+              key={item}
+              onClick={() => setFilter(item)}
+              aria-pressed={filter === item}
+              className={filter === item ? "is-active" : ""}
             >
-              Selected Projects.
-            </h2>
-            <div className="space-y-3">
-              {projects.map((project, i) => (
-                <div
-                  key={project.id}
-                  onClick={() => setSelectedProject(project)}
-                  className="group flex flex-col md:flex-row md:items-center gap-4 p-6 md:p-8 rounded-2xl border cursor-pointer transition-all duration-300"
-                  style={{
-                    backgroundColor: "var(--bg-card)",
-                    borderColor: "var(--border)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--border-hover)";
-                    e.currentTarget.style.backgroundColor =
-                      "var(--bg-card-hover)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--border)";
-                    e.currentTarget.style.backgroundColor = "var(--bg-card)";
-                  }}
-                >
-                  <span
-                    className="text-xs font-mono md:w-8 shrink-0"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
+              {item}
+              {item === "All work" ? (
+                <span>{String(projects.length).padStart(2, "0")}</span>
+              ) : null}
+            </button>
+          ))}
+        </div>
+        <span className="mono project-count" aria-live="polite">
+          {String(visible.length).padStart(2, "0")} PROJECT
+          {visible.length === 1 ? "" : "S"}
+        </span>
+      </div>
+      <div className="project-grid">
+        {visible.map((project) => (
+          <article
+            key={project.id}
+            className={`project-card project-${project.id}`}
+          >
+            <button
+              className="project-visual"
+              onClick={() => setSelected(project)}
+              aria-label={`View ${project.fullTitle || project.title} details`}
+            >
+              <span className="project-visual-top mono">
+                <span>
+                  {project.id === "busgo"
+                    ? "★ FEATURED PROJECT"
+                    : project.category}
+                </span>
+                <span>{project.number}</span>
+              </span>
+              {project.id === "busgo" ? (
+                <>
+                  <span className="busgo-background-word" aria-hidden="true">
+                    BusGo
                   </span>
-                  <span
-                    className="text-xs tracking-widest uppercase md:w-40 shrink-0"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    {project.category}
+                  <div className="phone-frame">
+                    <div className="phone-camera" />
+                    <img
+                      src={project.landing}
+                      alt="BusGo mobile app welcome screen"
+                      loading="lazy"
+                      width="322"
+                      height="671"
+                    />
+                  </div>
+                  <span className="busgo-caption mono">
+                    TRAVEL WITH CONFIDENCE.
                   </span>
-                  <h3
-                    className="text-xl md:text-2xl font-bold flex-1 group-hover:text-blue-400 transition-colors"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    {project.title}
-                  </h3>
-                  {project.featured && (
-                    <span className="text-xs px-3 py-1 rounded-full border border-blue-500/30 text-blue-400 font-medium shrink-0">
-                      ★ FEATURED
-                    </span>
-                  )}
-                  <span
-                    className="group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-200 shrink-0 text-lg"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    →
-                  </span>
+                </>
+              ) : project.preview === "peak" ? (
+                <PeakPreview />
+              ) : (
+                <div className="browser-frame">
+                  <div className="browser-toolbar">
+                    <i />
+                    <i />
+                    <i />
+                    <span>hsi-mini-project.vercel.app</span>
+                  </div>
+                  <img
+                    src={project.image}
+                    alt="HRIS employee portal login interface"
+                    loading="lazy"
+                  />
                 </div>
-              ))}
+              )}
+              <span className="project-open">
+                <ArrowUpRight size={20} />
+              </span>
+            </button>
+            <div className="project-card-body">
+              <p className="eyebrow">
+                {project.number} / {project.category}
+              </p>
+              <button
+                className="project-title"
+                onClick={() => setSelected(project)}
+              >
+                <h3>{project.title}</h3>
+                <ArrowUpRight size={22} />
+              </button>
+              <p className="project-summary">{project.summary}</p>
+              <div className="tech-tags">
+                {project.tech.slice(0, 3).map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </div>
             </div>
-          </div>
-        </RevealOnScroll>
-      </section>
-      <Modal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-    </>
+          </article>
+        ))}
+      </div>
+      <div className="work-footnote mono">
+        <span>BUILT TO LEARN. DESIGNED TO BE USED.</span>
+        <a
+          href="https://github.com/shirokuuun"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          MORE ON GITHUB <ArrowUpRight size={14} />
+        </a>
+      </div>
+      <ProjectDialog project={selected} onClose={() => setSelected(null)} />
+    </section>
   );
 };

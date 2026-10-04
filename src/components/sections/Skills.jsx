@@ -1,83 +1,63 @@
-import { RevealOnScroll } from "../RevealOnScroll.jsx";
+import { Braces, Database, Layers3, Wrench } from "lucide-react";
+import { SectionHeading } from "../SectionHeading.jsx";
 
-const skillCategories = [
+const categories = [
   {
-    label: "LANGUAGES",
-    skills: ["HTML", "CSS", "JavaScript", "PHP", "SQL", "Dart", "C++"],
+    label: "Languages",
+    icon: Braces,
+    skills: ["HTML", "CSS", "JavaScript", "PHP", "SQL", "Dart", "C#"],
   },
   {
-    label: "FRAMEWORKS",
-    skills: ["React", "Flutter", "Tailwind CSS", "Node.JS"],
+    label: "Frameworks",
+    icon: Layers3,
+    skills: ["React", "Flutter", "Tailwind CSS", "Node.js", ".NET", "WPF"],
   },
   {
-    label: "LIBRARIES & TOOLS",
-    skills: ["Git", "Figma"],
-  },
-  {
-    label: "DATABASES",
+    label: "Databases",
+    icon: Database,
     skills: ["PostgreSQL", "MySQL", "Firebase"],
   },
+  { label: "Tools & design", icon: Wrench, skills: ["Git", "Figma"] },
 ];
 
-export const Skills = () => {
-  return (
-    <section
-      id="skills"
-      className="min-h-screen flex items-start justify-center py-24 px-6"
+export const Skills = () => (
+  <section
+    id="skills"
+    className="section skills-section container"
+    aria-labelledby="skills-heading"
+  >
+    <SectionHeading
+      number="03"
+      label="MY TOOLKIT"
+      title={
+        <span id="skills-heading">
+          The tools behind the work<span className="accent">.</span>
+        </span>
+      }
     >
-      <RevealOnScroll>
-        <div className="max-w-6xl w-full mx-auto">
-          <h2
-            className="text-6xl md:text-8xl font-black mb-20 tracking-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            Skills.
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {skillCategories.map((cat) => (
-              <div key={cat.label}>
-                <p
-                  className="text-xs font-semibold tracking-widest uppercase mb-5 pb-3"
-                  style={{
-                    color: "var(--text-muted)",
-                    borderBottom: "1px solid var(--border)",
-                  }}
-                >
-                  {cat.label}
-                </p>
-
-                <div className="flex flex-wrap gap-2">
-                  {cat.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-default hover:text-blue-400"
-                      style={{
-                        border: "1px solid var(--border)",
-                        backgroundColor: "var(--bg-card)",
-                        color: "var(--text-secondary)",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor =
-                          "rgba(59,130,246,0.4)";
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(59,130,246,0.08)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = "var(--border)";
-                        e.currentTarget.style.backgroundColor =
-                          "var(--bg-card)";
-                      }}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+      <p>
+        The stack changes.
+        <br /> The drive to learn stays.
+      </p>
+    </SectionHeading>
+    <div className="skills-grid">
+      {categories.map((category, index) => {
+        const Icon = category.icon;
+        return (
+          <div className="skill-category" key={category.label}>
+            <div className="skill-category-top">
+              <Icon size={22} />
+              <span className="mono">0{index + 1}</span>
+            </div>
+            <h3>{category.label}</h3>
+            <div className="skill-list">
+              {category.skills.map((skill) => (
+                <span key={skill}>{skill}</span>
+              ))}
+            </div>
           </div>
-        </div>
-      </RevealOnScroll>
-    </section>
-  );
-};
+        );
+      })}
+    </div>
+  </section>
+);

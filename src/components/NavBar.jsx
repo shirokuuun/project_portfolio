@@ -1,95 +1,92 @@
-import { useEffect } from "react";
-import { useTheme } from "../context/ThemeContext.jsx";
-import { Sun, Moon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+import { useTheme } from "../context/theme.js";
+
+const links = [
+  { id: "projects", label: "Work" },
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "contact", label: "Contact" },
+];
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const { theme, toggleTheme } = useTheme();
-
+  const [active, setActive] = useState("home");
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-  }, [menuOpen]);
-
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-15% 0px -55% 0px" },
+    );
+    document
+      .querySelectorAll("main > section[id]")
+      .forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        document.getElementById("menu-toggle")?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen, setMenuOpen]);
   return (
-    <nav
-      className="fixed top-0 w-full backdrop-blur-md z-40 border-b transition-colors duration-300"
-      style={{
-        backgroundColor: "var(--nav-bg)",
-        borderColor: "var(--border)",
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+    <header className="site-header">
+      <div className="nav-inner container">
+        <a href="#home" className="brand" aria-label="Neo Rangel, home">
+          <span className="brand-symbol" aria-hidden="true">
+            n<span>r</span>
+            <i />
+          </span>
+          <span className="brand-name">
+            NEO RANGEL<span>FULL STACK DEVELOPER</span>
+          </span>
+        </a>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              aria-current={active === link.id ? "location" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <div className="nav-actions">
           <a
-            href="#home"
-            className="font-mono text-xl font-bold transition-colors duration-300"
-            style={{ color: "var(--text-primary)" }}
+            className="resume-link"
+            href="/Rangel,%20Marcus%20Neo%20-%20Resume.pdf"
+            download="Rangel, Marcus Neo - Resume.pdf"
           >
-            Neo <span className="text-blue-500">Rangel</span>
+            Résumé <ArrowUpRight size={16} />
           </a>
-
-          {/* Mobile: hamburger + theme toggle */}
-          <div className="flex items-center gap-3 md:hidden">
-            <button
-              onClick={toggleTheme}
-              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 hover:border-blue-500/40"
-              style={{
-                borderColor: "var(--border)",
-                color: "var(--text-secondary)",
-                backgroundColor: "var(--bg-card)",
-              }}
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-
-            <div
-              className={`w-7 h-5 relative cursor-pointer z-40 transition-opacity duration-300 ${
-                menuOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-              }`}
-              style={{ color: "var(--text-primary)" }}
-              onClick={() => setMenuOpen((prev) => !prev)}
-            >
-              &#9776;
-            </div>
-          </div>
-
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center space-x-7">
-            {[
-              "home",
-              "about",
-              "skills",
-              "projects",
-              "experience",
-              "contact",
-            ].map((item) => (
-              <a
-                key={item}
-                href={`#${item}`}
-                className="text-sm font-medium capitalize transition-colors duration-200 hover:text-blue-400"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </a>
-            ))}
-
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 hover:border-blue-500/40 hover:text-blue-400"
-              style={{
-                borderColor: "var(--border)",
-                color: "var(--text-secondary)",
-                backgroundColor: "var(--bg-card)",
-              }}
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-          </div>
+          <button
+            className="icon-button theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button
+            id="menu-toggle"
+            className="icon-button menu-toggle"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
