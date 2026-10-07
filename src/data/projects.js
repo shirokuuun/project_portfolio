@@ -84,6 +84,6 @@ export const projects = [
       flow: ["Provider adapters", "Usage & task rules", "WPF island"],
       note: "Codex supplies task activity. Claude integration currently supplies usage readings; Claude task and approval monitoring are not implemented.",
     },
-    liveLink: null,
+    liveLink: "https://peakforwindows.vercel.app",
   },
 ];
