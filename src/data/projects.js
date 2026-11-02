@@ -49,11 +49,12 @@ export const projects = [
     type: "Desktop",
     summary: "Your AI workflow, at a glance.",
     description:
-      "A lightweight Windows overlay that brings AI subscription usage and Codex task activity into one expandable island. Peak makes remaining usage, reset times, active chats, and requests for review easy to check without leaving your work. Built as a native desktop app, it keeps its settings and observations on your computer.",
+      "A lightweight Windows overlay that brings AI subscription usage and Codex task activity into a fixed notch or a floating dynamic island. Peak makes remaining usage, reset times, active chats, and requests for review easy to check without leaving your work. Built as a native desktop app, it keeps its settings and observations on your computer.",
     features: [
       "Codex and Claude usage windows with remaining percentages and reset times",
       "Codex task activity, elapsed time, and reported review requests",
-      "An expandable island with hover, pinning, a tray menu, and a recovery shortcut",
+      "Fixed Notch and Dynamic Island appearances with expandable usage and task views",
+      "Hover, pinning, a tray menu, and a recovery shortcut",
       "Dark, light, system, and custom color themes",
       "Local settings and sanitized observations, with no app database or remote backend",
     ],
@@ -66,7 +67,7 @@ export const projects = [
       steps: [
         {
           title: "A native interface",
-          text: "WPF and XAML render the transparent, always-on-top island. View models drive the limits and task views, while animated size changes, DPI-aware positioning, and monitor selection make it feel at home on Windows.",
+          text: "WPF and XAML render the transparent, always-on-top notch and dynamic island. View models drive the limits and task views, while animated size changes, DPI-aware positioning, and monitor selection make it feel at home on Windows.",
         },
         {
           title: "Provider-specific adapters",

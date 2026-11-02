@@ -1,0 +1,555 @@
+/* A black preview of Peak's current interface, independent of the app's color settings. */
+.project-peak .project-visual {
+  background: #171717;
+  border-color: #363636;
+  color: #b8b8b8;
+}
+.peak-preview {
+  color: #f5f5f5;
+  text-align: left;
+}
+.peak-preview-card {
+  position: absolute;
+  inset: 0;
+  padding: 46px 22px 35px;
+}
+.peak-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.peak-brand > img {
+  flex-shrink: 0;
+  border-radius: 9px;
+}
+.peak-brand > span {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+.peak-brand small {
+  display: block;
+  margin-top: 7px;
+  color: #aaa;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 6px;
+  font-weight: 400;
+  letter-spacing: 0.065em;
+}
+.peak-card-stage {
+  position: absolute;
+  inset: 98px 18px 34px;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+.peak-card-stage .peak-device {
+  width: 100%;
+  font-size: min(2.4cqw, 3.8cqh);
+  transition: transform 0.35s;
+}
+.project-peak .project-visual:hover .peak-device,
+.project-peak .project-visual:focus-visible .peak-device {
+  transform: translateY(-3px);
+}
+.peak-capture-note {
+  position: absolute;
+  bottom: 17px;
+  left: 22px;
+  color: #aaa;
+  font-size: 6px;
+}
+.dialog-image-peak {
+  height: auto;
+  padding: 0;
+  overflow: visible;
+  background: #141414;
+}
+.dialog-image-peak .dialog-close {
+  top: 21px;
+  right: 21px;
+  z-index: 2;
+  border-color: #444;
+  background: #242424;
+  color: #eee;
+  box-shadow: none;
+}
+.peak-preview-interactive {
+  padding: 25px 30px 0;
+}
+.peak-showcase-header {
+  padding-right: 49px;
+}
+.peak-showcase-intro {
+  margin: 30px 0 23px;
+}
+.peak-platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #aaa;
+  font-size: 8px;
+}
+.peak-showcase-intro > h3 {
+  margin-top: 10px;
+  font-size: clamp(23px, 4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.15;
+}
+.peak-showcase-intro > p {
+  margin-top: 10px;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.peak-control-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 11px;
+}
+.peak-control-label {
+  flex: 0 0 81px;
+  color: #999;
+  font-size: 8px;
+}
+.peak-preview-controls {
+  display: flex;
+  gap: 3px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px;
+  border: 1px solid #383838;
+  border-radius: 9px;
+  background: #202020;
+}
+.peak-preview-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 11px;
+  white-space: nowrap;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.peak-preview-controls button:hover {
+  background: #303030;
+  color: #fff;
+}
+.peak-preview-controls button.is-active {
+  border-color: #f1f1f1;
+  background: #f1f1f1;
+  color: #111;
+}
+.peak-preview-controls button:focus-visible {
+  outline-color: #fff;
+  outline-offset: 2px;
+}
+.peak-shape-icon {
+  display: inline-block;
+  width: 21px;
+  height: 10px;
+  background: currentColor;
+}
+.peak-shape-notch {
+  border-radius: 0 0 5px 5px;
+}
+.peak-shape-island {
+  border-radius: 9px;
+}
+.peak-showcase-figure {
+  margin: 20px 0 0;
+}
+.peak-capture-stage {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 355px;
+  padding: 0 14px 38px;
+  overflow: hidden;
+  border: 1px solid #3c3c3c;
+  border-top-color: #686868;
+  border-radius: 10px;
+  background: #252525;
+}
+.peak-screen-label {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  color: #aaa;
+  font-size: 7px;
+}
+.peak-capture-stage .peak-device {
+  transform: translateY(24px);
+}
+.peak-appearance-notch .peak-device {
+  transform: translateY(0);
+}
+.peak-showcase-figure figcaption {
+  padding: 15px 4px 0;
+  color: #bbb;
+  font-size: 11px;
+  line-height: 1.7;
+  text-align: center;
+}
+.peak-customization-note {
+  margin-top: 10px;
+  color: #999;
+  font-size: 10px;
+  line-height: 1.7;
+  text-align: center;
+}
+.peak-preview-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 20px 0;
+  color: #999;
+  font-size: 7px;
+}
+
+/* Em-based sizing keeps the same layout in the project card and detail view. */
+.peak-device {
+  width: 100%;
+  min-width: 0;
+  max-width: 552px;
+  overflow: hidden;
+  border: 1px solid #383838;
+  border-radius: 2em;
+  background: #090909;
+  color: #f5f5f5;
+  font-family: "Segoe UI", "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 10px 22px #0005;
+  transition:
+    width 0.3s,
+    border-radius 0.3s,
+    transform 0.3s;
+}
+.peak-device-compact {
+  width: min(360px, 90%);
+  border-radius: 4em;
+}
+.peak-device-notch {
+  border-top: 0;
+  border-radius: 0 0 2em 2em;
+}
+.peak-device-header {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr) 5em;
+  align-items: center;
+  gap: 0.6em;
+  height: 3.5em;
+  padding: 0 1.5em;
+  font-size: 0.92em;
+}
+.peak-device-provider {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+}
+.peak-device-provider > strong {
+  font-size: 1em;
+  font-weight: 600;
+}
+.peak-provider-badge {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.9em;
+  height: 1.9em;
+  padding: 2px;
+  border-radius: 50%;
+  background: conic-gradient(#36d399 91%, #3b3b3b 0);
+}
+.peak-provider-badge > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #090909;
+}
+.peak-provider-badge-claude {
+  padding: 0.3em;
+  background: #242424;
+}
+.peak-provider-badge-claude > img {
+  background: transparent;
+}
+.peak-provider-unavailable {
+  justify-content: flex-end;
+  color: #b2b2b2;
+}
+.peak-device-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  min-width: 0;
+  font-weight: 600;
+}
+.peak-device-title > i {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #b2b2b2;
+  flex-shrink: 0;
+}
+.peak-device-title > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.peak-device-title.needs-attention > i {
+  background: #f5b43c;
+}
+.peak-device-body {
+  padding: 0.8em 1.5em 1.1em;
+}
+.peak-device-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8em;
+  margin: 0 0 0.5em;
+}
+.peak-device-heading > strong {
+  font-size: 1.15em;
+  font-weight: 600;
+}
+.peak-device-heading > span {
+  color: #b2b2b2;
+  font-size: 0.95em;
+}
+.peak-usage-card {
+  padding: 1.2em 1.3em;
+  border: 1px solid #3d3d3d;
+  border-radius: 1.25em;
+  background: #222;
+}
+.peak-usage-window + .peak-usage-window {
+  margin-top: 1.45em;
+}
+.peak-usage-window > strong {
+  font-size: 1.05em;
+  font-weight: 600;
+}
+.peak-usage-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0.65em 0 0.6em;
+  color: #b2b2b2;
+  font-size: 0.94em;
+}
+.peak-usage-track {
+  height: 0.48em;
+  overflow: hidden;
+  border-radius: 1em;
+  background: #3b3b3b;
+}
+.peak-usage-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #f5f5f5;
+}
+.peak-device-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  min-height: 3.5em;
+  padding: 0 1.5em;
+  font-size: 0.85em;
+}
+.peak-footer-chats {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  min-width: 0;
+}
+.peak-footer-chats > span {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+  min-width: 0;
+}
+.peak-device-footer svg {
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
+}
+.peak-footer-chats strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1em;
+  font-weight: 600;
+}
+.peak-footer-chats small {
+  margin-left: 0.5em;
+  color: #b2b2b2;
+  font-size: 1em;
+}
+.peak-footer-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+}
+.peak-footer-tools svg {
+  width: 1.4em;
+  height: 1.4em;
+}
+.peak-task-card {
+  padding: 1em 1.1em;
+  border: 1px solid #3d3d3d;
+  border-radius: 1.1em;
+  background: #222;
+}
+.peak-task-card + .peak-task-card {
+  margin-top: 0.65em;
+}
+.peak-task-card > strong {
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+}
+.peak-task-card > span {
+  display: block;
+  margin: 0.2em 0 0.65em;
+  color: #aaa;
+  font-size: 0.8em;
+}
+.peak-task-card > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #b2b2b2;
+  font-size: 0.85em;
+}
+.peak-task-working {
+  color: #36d399;
+}
+.peak-device-attention {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0 1.7em 1.4em;
+  color: #f5b43c;
+  font-size: 0.95em;
+}
+.peak-device-attention > span:last-child {
+  color: #b2b2b2;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) and (min-width: 801px) {
+  .peak-preview-card {
+    padding: 42px 17px 30px;
+  }
+  .peak-preview-card .peak-brand {
+    gap: 7px;
+  }
+  .peak-preview-card .peak-brand > span {
+    font-size: 24px;
+  }
+  .peak-preview-card .peak-brand small {
+    font-size: 5px;
+  }
+  .peak-card-stage {
+    inset: 85px 12px 27px;
+  }
+  .peak-capture-note {
+    bottom: 12px;
+    left: 17px;
+    font-size: 5px;
+  }
+}
+@media (max-width: 580px) {
+  .dialog-image-peak {
+    height: auto;
+  }
+  .peak-preview-interactive {
+    padding: 21px 16px 0;
+  }
+  .dialog-image-peak .dialog-close {
+    top: 17px;
+    right: 16px;
+  }
+  .peak-showcase-header {
+    padding-right: 50px;
+  }
+  .peak-showcase-header .peak-brand {
+    gap: 8px;
+  }
+  .peak-showcase-header .peak-brand small {
+    font-size: 5px;
+    letter-spacing: 0;
+  }
+  .peak-showcase-intro {
+    margin-top: 27px;
+  }
+  .peak-showcase-intro > p {
+    font-size: 11px;
+  }
+  .peak-control-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+    margin-top: 16px;
+  }
+  .peak-control-label {
+    flex-basis: auto;
+  }
+  .peak-preview-controls {
+    width: 100%;
+    gap: 2px;
+  }
+  .peak-preview-controls button {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 5px;
+    font-size: 10px;
+  }
+  .peak-capture-stage {
+    height: 315px;
+    padding-inline: 10px;
+    container-type: inline-size;
+  }
+  .peak-capture-stage .peak-device {
+    font-size: clamp(8px, 3.2cqw, 11px);
+  }
+  .peak-device-body {
+    padding-inline: 1.1em;
+  }
+  .peak-device-footer {
+    padding-inline: 1.1em;
+  }
+  .peak-footer-chats {
+    gap: 1em;
+  }
+  .peak-footer-chats small {
+    margin-left: 0;
+  }
+  .peak-showcase-figure figcaption {
+    font-size: 10px;
+  }
+  .peak-preview-bottom {
+    font-size: 6px;
+  }
+}
