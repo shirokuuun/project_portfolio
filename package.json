@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:client && npm run build:ssr && node scripts/prerender.mjs",
+    "build:client": "vite build",
+    "build:ssr": "vite build --ssr src/App.jsx --outDir dist-ssr",
+    "test:seo": "node --test tests/seo.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

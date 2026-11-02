@@ -6,6 +6,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { Workspace } from "../Workspace.jsx";
+import { site } from "../../data/site.js";
 
 export const HomePage = () => (
   <>
@@ -42,8 +43,8 @@ export const HomePage = () => (
             </p>
           </div>
           <p className="hero-description">
-            I build thoughtful digital experiences — from the interface you see
-            to the systems that make it all work.
+            I’m {site.name}, a full stack developer based in the Philippines. I
+            build web and mobile applications with React, Flutter, and Node.js.
           </p>
           <div className="hero-ctas">
             <a href="#projects" className="button button-primary">

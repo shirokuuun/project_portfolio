@@ -1,15 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { ThemeContext } from "./theme.js";
 
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    clientSnapshot,
+    serverSnapshot,
+  );
+  const [preference, setTheme] = useState(() => {
     try {
       return localStorage.getItem("theme") === "light" ? "light" : "dark";
     } catch {
       return "dark";
     }
   });
+  // The first client render matches the dark HTML generated during the build.
+  const theme = hydrated ? preference : "dark";
   useEffect(() => {
+    if (!hydrated) return;
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
     document
@@ -20,7 +32,7 @@ export const ThemeProvider = ({ children }) => {
     } catch {
       /* Storage may be unavailable. */
     }
-  }, [theme]);
+  }, [theme, hydrated]);
   return (
     <ThemeContext.Provider
       value={{

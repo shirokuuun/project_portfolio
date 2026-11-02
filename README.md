@@ -14,16 +14,19 @@ Open [localhost:5173](http://localhost:5173). Review this version before pushing
 ```sh
 npm run lint
 npm run build
+npm run test:seo
 ```
 
 ## Editing content
 
 - `src/data/projects.js`: project descriptions, technologies, previews, and live links.
+- `src/data/site.js`: canonical website URL, full name and alternate name, SEO metadata, and public profiles.
 - `src/components/sections/`: biography, education, toolkit, experience, and contact details.
 - `src/components/Workspace.jsx`: the original SVG workspace illustration and specialty controls.
 - `src/components/PeakPreview.jsx`: Peak's illustrated Windows interface with interactive compact, limits, and task views. All readings and tasks are labeled sample data, based on the app's local demo mode.
 - `src/index.css`: responsive layout, color themes, typography, and reduced-motion support.
 - `public/Rangel, Marcus Neo - Resume.pdf`: the downloadable résumé.
+- `public/profile.jpg`: the portrait used by the About section, structured profile data, and social previews.
 
 The HRIS preview image was captured from the existing public project. Other previews and the portrait use the existing portfolio assets. Fonts come from Google Fonts; icons use Lucide.
 
@@ -55,4 +58,14 @@ Form success and failure behavior was checked locally using simulated responses;
 - Workspace specialty controls, theme persistence, and mobile navigation.
 - Required form fields, simulated success/reset, and failure/retry behavior.
 
-No deployment or CI/CD changes are included in this local remodel.
+## SEO and Google indexing
+
+Production URL: **https://neorangel.vercel.app/**. The primary search identity is **Marcus Neo Rangel**, with **Neo Rangel** as an alternate name.
+
+`npm run build` creates the browser bundle, creates a temporary Vite SSR bundle, and pre-renders the homepage into `dist/index.html`. Vercel still publishes the static `dist` directory; no runtime server is required. React hydrates the existing HTML while preserving the saved appearance and interactive controls. `npm run dev` retains client rendering for development.
+
+The build also includes a canonical URL, full-name title/description, Open Graph and Twitter metadata, and a JSON-LD graph connecting the website, profile page, and person. It generates `dist/robots.txt` and `dist/sitemap.xml` using the same production URL. Vercel preview environments receive `noindex`; production remains indexable.
+
+Run `npm run test:seo` after building to check the actual production HTML, structured data, crawler files, and asset references. Generated `dist` and `dist-ssr` output stays untracked.
+
+Follow the [step-by-step Google Search Console setup](docs/google-search-setup.md) to verify ownership, submit the sitemap, request indexing, and track searches for your name. Google's unique verification file must be downloaded from your own Search Console account and placed unchanged in `public` before deployment.

@@ -10,18 +10,20 @@
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Marcus Neo Rangel — web and mobile developer based in the Philippines. Explore thoughtful React, Flutter, and Node.js projects, experience, and ideas made real."
-    />
     <meta name="theme-color" content="#161815" />
-    <meta property="og:title" content="Neo Rangel — Web & Mobile Developer" />
-    <meta
-      property="og:description"
-      content="A little code. A lot of curiosity. Explore my projects, toolkit, and the person behind the pixels."
-    />
-    <meta property="og:type" content="website" />
-    <title>Neo Rangel — Full Stack Developer</title>
+    <script>
+      try {
+        const theme =
+          localStorage.getItem("theme") === "light" ? "light" : "dark";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", theme === "light" ? "#f4f3ed" : "#161815");
+      } catch {
+        // The default dark appearance also works when storage is unavailable.
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

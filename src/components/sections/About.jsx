@@ -1,5 +1,5 @@
 import { ArrowDownToLine, ArrowUpRight, Award, MapPin } from "lucide-react";
-import profilePhoto from "../../assets/formal.jpg";
+import { site } from "../../data/site.js";
 import { SectionHeading } from "../SectionHeading.jsx";
 
 export const About = () => (
@@ -26,8 +26,8 @@ export const About = () => (
         <div className="profile-card">
           <div className="profile-photo">
             <img
-              src={profilePhoto}
-              alt="Marcus Neo Rangel"
+              src={site.image}
+              alt={site.name}
               loading="lazy"
               width="500"
               height="500"
