@@ -13,22 +13,22 @@ export const ThemeProvider = ({ children }) => {
   );
   const [preference, setTheme] = useState(() => {
     try {
-      return localStorage.getItem("theme") === "light" ? "light" : "dark";
+      return localStorage.getItem("portfolio-appearance") === "dark" ? "dark" : "light";
     } catch {
-      return "dark";
+      return "light";
     }
   });
-  // The first client render matches the dark HTML generated during the build.
-  const theme = hydrated ? preference : "dark";
+  // Match the light HTML generated during the build before hydrating preferences.
+  const theme = hydrated ? preference : "light";
   useEffect(() => {
     if (!hydrated) return;
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#161815" : "#f4f3ed");
+      ?.setAttribute("content", theme === "dark" ? "#202020" : "#f6f6f6");
     try {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("portfolio-appearance", theme);
     } catch {
       /* Storage may be unavailable. */
     }

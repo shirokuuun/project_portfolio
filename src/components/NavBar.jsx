@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+import { Download, Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "../context/theme.js";
 
 const links = [
@@ -41,13 +41,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     <header className="site-header">
       <div className="nav-inner container">
         <a href="#home" className="brand" aria-label="Neo Rangel, home">
-          <span className="brand-symbol" aria-hidden="true">
-            n<span>r</span>
-            <i />
-          </span>
-          <span className="brand-name">
-            NEO RANGEL<span>FULL STACK DEVELOPER</span>
-          </span>
+          <span className="brand-name">Neo Rangel</span>
         </a>
         <nav className="desktop-nav" aria-label="Main navigation">
           {links.map((link) => (
@@ -66,7 +60,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
             href="/Rangel,%20Marcus%20Neo%20-%20Resume.pdf"
             download="Rangel, Marcus Neo - Resume.pdf"
           >
-            Résumé <ArrowUpRight size={16} />
+            <Download size={15} /> Résumé
           </a>
           <button
             className="icon-button theme-toggle"

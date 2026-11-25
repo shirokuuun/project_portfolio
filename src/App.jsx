@@ -8,9 +8,21 @@ import { Skills } from "./components/sections/Skills.jsx";
 import { Projects } from "./components/sections/Projects.jsx";
 import { Experience } from "./components/sections/Experience.jsx";
 import { Contact } from "./components/sections/Contact.jsx";
+import { ProjectPage, ProjectNotFound } from "./components/ProjectPage.jsx";
+import { projects } from "./data/projects.js";
 
-function App() {
+function App({ pathname = "/" }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const project = projects.find(
+    (item) => pathname.replace(/\/$/, "") === `/projects/${item.id}`,
+  );
+  if (pathname !== "/") {
+    return (
+      <ThemeProvider>
+        {project ? <ProjectPage project={project} /> : <ProjectNotFound />}
+      </ThemeProvider>
+    );
+  }
   return (
     <ThemeProvider>
       <a className="skip-link" href="#main">
@@ -28,9 +40,9 @@ function App() {
       </main>
       <footer className="site-footer container">
         <a className="wordmark" href="#home">
-          neo<span>rangel.</span>
+          Neo Rangel
         </a>
-        <p>Built with curiosity & a little too much coffee.</p>
+        <p>Full Stack Developer · Philippines</p>
         <a href="#home" className="back-top">
           Back to top <span aria-hidden="true">↑</span>
         </a>

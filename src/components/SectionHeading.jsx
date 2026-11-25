@@ -1,8 +1,8 @@
-export const SectionHeading = ({ number, label, title, children }) => (
+export const SectionHeading = ({ label, title, children }) => (
   <div className="section-heading">
     <div>
       <p className="eyebrow">
-        <span className="section-number">{number} /</span> {label}
+        {label}
       </p>
       <h2>{title}</h2>
     </div>

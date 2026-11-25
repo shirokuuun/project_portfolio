@@ -1,99 +1,102 @@
-import {
-  ArrowDown,
-  ArrowDownRight,
-  ArrowUpRight,
-  Github,
-  Linkedin,
-} from "lucide-react";
-import { Workspace } from "../Workspace.jsx";
+﻿import { Github, Linkedin } from "lucide-react";
 import { site } from "../../data/site.js";
+import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+
+const githubProfile = site.profiles.find((profile) =>
+  profile.startsWith("https://github.com/"),
+);
+const githubUsername = new URL(githubProfile).pathname
+  .split("/")
+  .filter(Boolean)[0];
+
+function GitHubContributions() {
+  const [unavailable, setUnavailable] = useState(false);
+
+  return (
+    <a
+      className="github-contributions"
+      href={githubProfile}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`View ${githubUsername}'s contributions on GitHub (opens in a new tab)`}
+    >
+      <span className="contributions-heading">
+        <span>GitHub</span>
+        <span className="contributions-profile">
+          @{githubUsername}
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </span>
+      </span>
+      {unavailable ? (
+        <span className="contributions-fallback">
+          View my latest activity on GitHub{" "}
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </span>
+      ) : (
+        <span className="contributions-chart">
+          <img
+            src={`https://ghchart.rshah.org/262626/${githubUsername}`}
+            alt={`GitHub contribution calendar for ${githubUsername} over the past year`}
+            width="663"
+            height="104"
+            loading="lazy"
+            decoding="async"
+            onError={() => setUnavailable(true)}
+          />
+        </span>
+      )}
+    </a>
+  );
+}
 
 export const HomePage = () => (
-  <>
-    <section id="home" className="hero container" aria-labelledby="hero-title">
-      <div className="hero-topline mono">
-        <span>
-          <span className="status-dot" /> OPEN TO OPPORTUNITIES
-        </span>
-        <span className="hero-location">
-          BASED IN THE PHILIPPINES <span aria-hidden="true">↗</span>
-        </span>
-      </div>
-      <div className="hero-grid">
-        <div className="hero-copy">
-          <p className="eyebrow">
-            <span className="tiny-cross" aria-hidden="true">
-              ✳
-            </span>{" "}
-            A LITTLE CODE. A LOT OF CURIOSITY.
-          </p>
-          <h1 id="hero-title">
-            NEO
-            <br />
-            <span>
-              RANGEL<span className="name-period">.</span>
-            </span>
-          </h1>
-          <div className="hero-role">
-            <span className="role-line" />
-            <p>
-              Full Stack Developer
-              <br />
-              <span>Turning ideas into things you can use.</span>
-            </p>
-          </div>
-          <p className="hero-description">
-            I’m {site.name}, a full stack developer based in the Philippines. I
-            build web and mobile applications with React, Flutter, and Node.js.
-          </p>
-          <div className="hero-ctas">
-            <a href="#projects" className="button button-primary">
-              Explore my work <ArrowDownRight size={18} />
-            </a>
-            <a href="#contact" className="text-link">
-              Let’s talk <ArrowUpRight size={17} />
-            </a>
-          </div>
-          <div className="hero-socials">
-            <a
-              href="https://github.com/shirokuuun"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub profile"
-            >
-              <Github size={17} /> GitHub <ArrowUpRight size={12} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/marcusneorangel/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn profile"
-            >
-              <Linkedin size={17} /> LinkedIn <ArrowUpRight size={12} />
-            </a>
-            <span className="mono">ALWAYS LEARNING, ALWAYS BUILDING.</span>
-          </div>
-        </div>
-        <Workspace />
-      </div>
-      <div className="hero-bottom mono">
-        <a href="#projects">
-          <ArrowDown size={14} /> SCROLL TO EXPLORE
+  <section id="home" className="intro container" aria-labelledby="hero-title">
+    <div className="intro-copy">
+      <p className="eyebrow">Full Stack Developer</p>
+      <h1 id="hero-title">
+        Neo
+        <br />
+        Rangel
+      </h1>
+      <p className="intro-description">
+        I build cool stuff from a bus tracking system to the small tools I want
+        on my own computer. Give me problems and I'll solve it for you.
+      </p>
+      <div className="intro-links">
+        <a href="#projects" className="button button-primary">
+          View selected work
         </a>
-        <span>PORTFOLIO / 2026</span>
+        <a href="#contact" className="text-link">
+          Get in touch
+        </a>
       </div>
-    </section>
-    {/* <div className="capability-strip" aria-label="Development focus">
-      <div className="container">
-        <span>WEB DEVELOPMENT</span>
-        <i aria-hidden="true">✳</i>
-        <span>MOBILE APPLICATIONS</span>
-        <i aria-hidden="true">✳</i>
-        <span>BACKEND SYSTEMS</span>
-        <i aria-hidden="true">✳</i>
-        <span>THOUGHTFUL EXPERIENCES</span>
-        <i aria-hidden="true">✳</i>
+    </div>
+    <figure className="intro-portrait">
+      <img
+        src={site.image}
+        alt={site.name}
+        width="500"
+        height="500"
+        fetchPriority="high"
+      />
+      <figcaption>
+        <span>Based in the Philippines</span>
+        <span>Open to opportunities</span>
+      </figcaption>
+    </figure>
+    <div className="intro-bottom">
+      <GitHubContributions />
+      <div className="intro-socials">
+        <a href={site.profiles[0]} target="_blank" rel="noopener noreferrer">
+          <Github size={16} />
+          GitHub
+        </a>
+        <a href={site.profiles[1]} target="_blank" rel="noopener noreferrer">
+          <Linkedin size={16} />
+          LinkedIn
+        </a>
       </div>
-    </div> */}
-  </>
+    </div>
+  </section>
 );

@@ -8,23 +8,9 @@ export const Experience = () => (
     aria-labelledby="experience-heading"
   >
     <SectionHeading
-      number="04"
-      label="ALONG THE WAY"
-      title={
-        <span id="experience-heading">
-          Learning by doing<span className="accent">.</span>
-        </span>
-      }
-    >
-      <a
-        href="/Rangel,%20Marcus%20Neo%20-%20Resume.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-link"
-      >
-        View full résumé <ArrowUpRight size={16} />
-      </a>
-    </SectionHeading>
+      label="WORK HISTORY"
+      title={<span id="experience-heading">Experience</span>}
+    ></SectionHeading>
     <details className="experience-card" open>
       <summary>
         <span className="experience-icon">

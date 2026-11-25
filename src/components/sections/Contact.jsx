@@ -53,22 +53,18 @@ export const Contact = () => {
     >
       <div className="container">
         <p className="eyebrow">
-          <span className="section-number">05 /</span> YOUR IDEA COULD BE NEXT
+          CONTACT
         </p>
         <div className="contact-grid">
           <div className="contact-copy">
             <h2 id="contact-heading">
-              Let’s make
+              Let’s work
               <br />
-              something{" "}
-              <span>
-                good<span className="contact-period">.</span>
-              </span>
+              together.
             </h2>
             <p>
-              A project, an opportunity, or just a hello.
-              <br />
-              I’d love to hear what you have in mind.
+              I’m open to development roles and project collaborations.
+              Send me a message or reach me directly by email.
             </p>
             <div className="contact-email">
               <a href={`mailto:${email}`}>{email}</a>
@@ -87,7 +83,7 @@ export const Contact = () => {
                 ? "EMAIL COPIED"
                 : copyFailed
                   ? "PLEASE SELECT THE EMAIL ADDRESS TO COPY IT"
-                  : "LET’S START A CONVERSATION"}
+                  : ""}
             </span>
             <div className="contact-socials">
               <a
@@ -113,10 +109,7 @@ export const Contact = () => {
           >
             <div className="form-topline mono">
               <span>
-                <Mail size={14} /> A NOTE TO NEO
-              </span>
-              <span>
-                INBOX IS OPEN <span className="status-dot" />
+                <Mail size={14} /> Send a message
               </span>
             </div>
             <div className="form-fields-row">
@@ -174,7 +167,7 @@ export const Contact = () => {
                 ? "Message sent. Thanks for reaching out!"
                 : status === "error"
                   ? "Your message couldn’t be sent. Please try again or email me directly."
-                  : "Have something in mind? Let’s talk it through."}
+                  : ""}
             </p>
           </form>
         </div>

@@ -2,12 +2,11 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-window.history.scrollRestoration = "manual";
 
 const root = document.getElementById("root");
 const app = (
   <StrictMode>
-    <App />
+    <App pathname={window.location.pathname} />
   </StrictMode>
 );
 
